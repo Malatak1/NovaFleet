@@ -24,14 +24,14 @@ public abstract class Projectile extends Entity {
 		this.speed = speed;
 	}
 	
-	public void move() {
+	public void move(int delta) {
 		float a = this.rotation();
-		this.setX(this.x() + ((float)Math.cos(Math.toRadians(a))) * speed);
-		this.setY(this.y() + ((float)Math.sin(Math.toRadians(a))) * speed);
+		this.setX(this.x() + ((float)Math.sin(Math.toRadians(a))) * speed * delta);
+		this.setY(this.y() + ((float)Math.cos(Math.toRadians(a))) * speed * delta);
 	}
 	
 	public abstract int getDamage();
 	public abstract Ship getShooter();
-	public abstract void update();
+	public abstract void update(int delta);
 	
 }

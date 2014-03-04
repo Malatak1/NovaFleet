@@ -10,7 +10,7 @@ public class CannonProjectile extends Projectile {
 	private Ship shooter;
 	
 	public CannonProjectile(float x, float y, float a, Image image, Ship shooter) {
-		super(x, y, a, image);
+		super(x, y, a < 0 ? a + 360 : a, image);
 		this.shooter = shooter;
 	}
 	
@@ -29,10 +29,13 @@ public class CannonProjectile extends Projectile {
 	}
 	
 	@Override
-	public void update() {
+	public void update(int delta) {
 		GameContainer gc = NovaFleet.getGC();
-		this.setSpeed(4F);
-		move();
+		if (getSpeed() == 0) {
+			setSpeed(0.2F);
+		}
+		this.setSpeed(getSpeed() + 0.005F * delta);
+		move(delta);
 		if (this.x() < 0) {
 			this.remove();
 		}

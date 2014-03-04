@@ -38,5 +38,8 @@ public abstract class Entity {
 	public void remove() {
 		remove = true;
 	}
+	public void remove(boolean removalState) {
+		remove = removalState;
+	}
 	
 }
