@@ -10,6 +10,7 @@ public abstract class Ship extends Damageable {
 	private long lastShotFired = 0;
 	private Image image;
 	private float speed = 0;
+	private boolean left = true;
 	
 	public Ship(int x, int y, int a, Image image) {
 		super(x, y, a);
@@ -64,10 +65,31 @@ public abstract class Ship extends Damageable {
 	}
 	
 	public void shootProjectile(int delta) {
-		if (lastShotFired + 50 < System.currentTimeMillis()) {
-			CannonProjectile projectile = new CannonProjectile(this, NovaFleet.getCannonImg());
-			NovaFleet.addProjectile(projectile);
-			lastShotFired = System.currentTimeMillis();
+		if (left) {
+			if (lastShotFired + 50 < System.currentTimeMillis()) {
+//				float x = this.x() + 16;
+//				float y = this.y() + 16;
+				float a = this.rotation();
+				float x = this.x() + 16 + ((float) Math.sin(Math.toRadians(a - 90))) * 10;
+				float y = this.y() + 16 + ((float) Math.cos(Math.toRadians(a - 90))) * 10;
+				CannonProjectile projectile = new CannonProjectile(x, y, a < 0 ? a + 360 : a, NovaFleet.getCannonImg(), this);				projectile.setSpeed(speed);
+				NovaFleet.addProjectile(projectile);
+				lastShotFired = System.currentTimeMillis();
+				left = false;
+			}
+		} else {
+			if (lastShotFired + 50 < System.currentTimeMillis()) {
+//				float x = this.x() + 16;
+//				float y = this.y() + 16;
+				float a = this.rotation();
+				float x = this.x() + 16 + ((float) Math.sin(Math.toRadians(a + 90))) * 10;
+				float y = this.y() + 16 + ((float) Math.cos(Math.toRadians(a + 90))) * 10;
+				CannonProjectile projectile = new CannonProjectile(x, y, a < 0 ? a + 360 : a, NovaFleet.getCannonImg(), this);
+				projectile.setSpeed(speed);
+				NovaFleet.addProjectile(projectile);
+				lastShotFired = System.currentTimeMillis();
+				left = true;
+			}
 		}
 	}
 }
